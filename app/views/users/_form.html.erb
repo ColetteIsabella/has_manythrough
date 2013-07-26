@@ -1,0 +1,29 @@
+<%= form_for @user, html: {class: "form-horizontal"} do |f| %>
+  <fieldset id="user-meta">
+    <ol>
+      <li class="ID">
+        <%= f.label :name, "User Name", class: "control-label" %>
+        <div class="controls"><%= f.text_field :name %></div>
+      </li>
+      <li class="ID">
+        <%= f.label :created_at, "This User began this phase", class: "control-label" %>
+        <div class="controls"><%= f.text_area :created_at, rows: 5 %></div>
+      </li>
+      <li class="control-group">
+        <%= f.label :updated_at, "This user changed phases at", class: "control-label" %>
+        <div class="controls"><%= f.text_area :updated_at, rows: 10 %></div>
+      </li>
+    </ol>
+  </fieldset>
+
+  <fieldset id="User Phase">
+    <ol>
+      <%= f.fields_for :phase do |phase| %>
+        <%= render 'phase_fields', f: phase %>
+      <% end %>
+    </ol>
+    <%= link_to_add_association 'add phase', f, :quantities, 'data-association-insertion-node' => "#user-phase ol", 'data-association-insertion-method' => "append", :wrap_object => Proc.new {|level| level.build_phase; level } %>
+  </fieldset>
+
+  <%= f.submit %>
+<% end %>
